@@ -1,6 +1,6 @@
 (define (domain procedural-generation)
     (:requirements :action-costs)
-        (predicates
+        (:predicates
             (location ?l)
             (item ?i)
             (information ?info)
