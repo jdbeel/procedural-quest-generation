@@ -1,0 +1,122 @@
+(define (domain procedural-generation)
+    (:requirements :action-costs)
+        (predicates
+            (location ?l)
+            (item ?i)
+            (information ?info)
+            (character ?c)
+            (defended ?c)
+            (sneaky ?c)
+            (has ?cl ?i)
+            (at ?c ?l)
+            (player ?p)
+            (cooperative ?c)
+            (wants ?c ?i)
+            (dead ?c)
+            (weapon ?w)
+            (adjacent ?l1 ?l2)
+            (monster ?m)
+            (captive ?captor ?captive)
+            (damaged ?i)
+            (experimented ?i)
+            (explored ?l)
+            (used ?i))
+
+    (:functions
+        (total-cost))
+
+    (:action capture
+        :parameters (?p ?c ?l)
+        :precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l))
+        :effect (and (captive ?p ?c) (increase (total-cost) 2)))
+
+    (:action damage
+        :parameters (?p ?i ?l ?w)
+        :precondition (and (player ?p) (item ?i) (location ?l) (weapon ?w) (or (and (at ?p ?l) (has ?l ?i)) (has ?p ?i)) (has ?p ?w))
+        :effect (and (damaged ?i) (increase (total-cost) 2)))
+
+    (:action defend 
+		:parameters (?p ?d ?l)
+		:precondition (and (player ?p) (or (character ?d) (item ?d)) (location ?l) (at ?p ?l) (or (at ?d ?l) (has ?l ?d)))
+		:effect (and (defended ?d) (increase (total-cost) 2)))
+
+    (:action escort
+        :parameters (?p ?c ?l1 ?l2)
+        :precondition (and (player ?p) (character ?c) (location ?l1) (location ?l2) (at ?p ?l1) (at ?c ?l1) (cooperative ?c))
+        :effect (and (at ?p ?l2) (at ?c ?l2) (not (at ?p ?l1)) (not (at ?c ?l1)) (increase (total-cost) 4)))
+
+    (:action exchange
+		:parameters (?p ?c ?i2 ?i1 ?l)
+		:precondition (and (player ?p) (character ?c) (item ?i1) (item ?i2) (location ?l) (has ?p ?i1) (has ?c ?i2) (at ?p ?l) (at ?c ?l))
+		:effect (and (not (has ?p ?i1)) (has ?p ?i2) (not (has ?c ?i2)) (has ?c ?i1) (increase (total-cost) 1)))
+
+    (:action experiment
+		:parameters (?p ?i)
+		:precondition (and (player ?p) (item ?i) (has ?p ?i))
+		:effect (and (experimented ?i) (increase (total-cost) 2)))
+
+    (:action explore
+		:parameters (?p ?l1 ?l2)
+		:precondition (and (player ?p) (location ?l1) (location ?l2) (at ?p ?l1))
+		:effect (and (explored ?l2) (not (at ?p ?l1)) (at ?p ?l2) (increase (total-cost) 3)))
+
+    (:action getfromlocation
+		:parameters (?p ?l ?i)
+		:precondition (and (player ?p) (location ?l) (item ?i) (has ?l ?i) (at ?p ?l))
+		:effect (and (has ?p ?i) (not (has ?l ?i)) (increase (total-cost) 2)))
+
+    (:action giveto
+		:parameters (?p ?charB ?i ?loc)
+   		:precondition (and (character ?charB) (player ?p) (item ?i) (has ?p ?i) (location ?loc) (at ?charB ?loc) (at ?p ?loc))
+   		:effect (and (has ?charB ?i) (not (has ?p ?i)) (cooperative ?charB) (increase (total-cost) 2)))
+
+    (:action move
+		:parameters (?p ?t ?f)
+		:precondition (and (location ?t) (location ?f) (player ?p) (at ?p ?f))
+		:effect (and (at ?p ?t) (not (at ?p ?f)) (increase (total-cost) 2)))
+
+    (:action kill
+        :parameters (?p ?c ?i ?l ?w)
+        :precondition (and (not (damaged ?w)) (player ?p) (or (character ?c) (monster ?c)) (at ?c ?l) (at ?p ?l) (item ?i) (location ?l) (has ?charA ?i) (weapon ?w) (has ?p ?w))
+        :effect (and (not (character ?c)) (has ?l ?i) (dead ?c) (item ?c) (increase (total-cost) 3)))
+
+    (:action listen
+		:parameters (?p ?c ?l ?i)
+		:precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l) (information ?i) (has ?c ?i))
+		:effect (and (has ?p ?i) (increase (total-cost) 2)))
+
+    (:action read
+		:parameters (?p ?l ?i ?info)
+		:precondition (and (player ?p) (item ?i) (information ?info) (location ?l) (at ?p ?l) (has ?l ?i) (has ?i ?info))
+		:effect (and (has ?p ?info) (increase (total-cost) 2)))
+
+    (:action repair
+		:parameters (?p ?l ?i)
+		:precondition (and (player ?p) (location ?l) (item ?i) (damaged ?i) (or (and (at ?p ?l) (has ?l ?i))) (has ?p ?i))
+		:effect (and (not (damaged ?i)) (increase (total-cost) 2)))
+
+    (:action report
+		:parameters (?p ?c ?info ?l)
+		:precondition (and (player ?p) (location ?l) (character ?c) (information ?info) (at ?p ?l) (at ?c ?l) (has ?p ?info))
+		:effect (and (has ?c ?info) (increase (total-cost) 2)))
+
+    (:action spy
+		:parameters (?p ?c ?l ?info)
+		:precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l) (sneaky ?p) (information ?info) (has ?c ?info))
+		:effect (and (has ?p ?info) (increase (total-cost) 2)))
+
+    (:action stealth
+		:parameters (?p)
+		:precondition (player ?p)
+		:effect (and (sneaky ?p) (increase (total-cost) 2)))
+
+    (:action take
+		:parameters (?p ?c ?i ?l)
+		:precondition (and (player ?p) (or (character ?c) (monster ?c)) (item ?i) (location ?l) (has ?c ?i) (at ?p ?l) (at ?c ?l) (or (cooperative ?c) (sneaky ?p)))
+		:effect (and (has ?p ?i) (not (has ?c ?i)) (increase (total-cost) 2)))
+
+    (:action use
+		:parameters (?p ?i)
+		:precondition (and (player ?p) (item ?i) (has ?p ?i))
+		:effect (and (used ?i) (increase (total-cost) 1)))
+)
