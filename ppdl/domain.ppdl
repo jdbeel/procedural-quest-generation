@@ -71,9 +71,9 @@
    		:effect (and (has ?charB ?i) (not (has ?p ?i)) (cooperative ?charB) (increase (total-cost) 2)))
 
     (:action move
-		:parameters (?p ?t ?f)
-		:precondition (and (location ?t) (location ?f) (player ?p) (at ?p ?f))
-		:effect (and (at ?p ?t) (not (at ?p ?f)) (increase (total-cost) 2)))
+        :parameters (?p ?t ?f)
+        :precondition (and (location ?t) (location ?f) (player ?p) (at ?p ?f))
+        :effect (and (at ?p ?t) (not (at ?p ?f)) (increase (total-cost) 2)))
 
     (:action kill
         :parameters (?p ?c ?i ?l ?w)
@@ -81,42 +81,42 @@
         :effect (and (not (character ?c)) (has ?l ?i) (dead ?c) (item ?c) (increase (total-cost) 3)))
 
     (:action listen
-		:parameters (?p ?c ?l ?i)
-		:precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l) (information ?i) (has ?c ?i))
-		:effect (and (has ?p ?i) (increase (total-cost) 2)))
+        :parameters (?p ?c ?l ?i)
+        :precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l) (information ?i) (has ?c ?i))
+        :effect (and (has ?p ?i) (increase (total-cost) 2)))
 
     (:action read
-		:parameters (?p ?l ?i ?info)
-		:precondition (and (player ?p) (item ?i) (information ?info) (location ?l) (at ?p ?l) (has ?l ?i) (has ?i ?info))
-		:effect (and (has ?p ?info) (increase (total-cost) 2)))
+        :parameters (?p ?l ?i ?info)
+        :precondition (and (player ?p) (item ?i) (information ?info) (location ?l) (at ?p ?l) (has ?l ?i) (has ?i ?info))
+        :effect (and (has ?p ?info) (increase (total-cost) 2)))
 
     (:action repair
-		:parameters (?p ?l ?i)
-		:precondition (and (player ?p) (location ?l) (item ?i) (damaged ?i) (or (and (at ?p ?l) (has ?l ?i))) (has ?p ?i))
-		:effect (and (not (damaged ?i)) (increase (total-cost) 2)))
+        :parameters (?p ?l ?i)
+        :precondition (and (player ?p) (location ?l) (item ?i) (damaged ?i) (or (and (at ?p ?l) (has ?l ?i))) (has ?p ?i))
+        :effect (and (not (damaged ?i)) (increase (total-cost) 2)))
 
     (:action report
-		:parameters (?p ?c ?info ?l)
-		:precondition (and (player ?p) (location ?l) (character ?c) (information ?info) (at ?p ?l) (at ?c ?l) (has ?p ?info))
-		:effect (and (has ?c ?info) (increase (total-cost) 2)))
+        :parameters (?p ?c ?info ?l)
+        :precondition (and (player ?p) (location ?l) (character ?c) (information ?info) (at ?p ?l) (at ?c ?l) (has ?p ?info))
+        :effect (and (has ?c ?info) (increase (total-cost) 2)))
 
     (:action spy
-		:parameters (?p ?c ?l ?info)
-		:precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l) (sneaky ?p) (information ?info) (has ?c ?info))
-		:effect (and (has ?p ?info) (increase (total-cost) 2)))
+        :parameters (?p ?c ?l ?info)
+        :precondition (and (player ?p) (character ?c) (location ?l) (at ?p ?l) (at ?c ?l) (sneaky ?p) (information ?info) (has ?c ?info))
+        :effect (and (has ?p ?info) (increase (total-cost) 2)))
 
     (:action stealth
-		:parameters (?p)
-		:precondition (player ?p)
-		:effect (and (sneaky ?p) (increase (total-cost) 2)))
+        :parameters (?p)
+        :precondition (player ?p)
+        :effect (and (sneaky ?p) (increase (total-cost) 2)))
 
     (:action take
-		:parameters (?p ?c ?i ?l)
-		:precondition (and (player ?p) (or (character ?c) (monster ?c)) (item ?i) (location ?l) (has ?c ?i) (at ?p ?l) (at ?c ?l) (or (cooperative ?c) (sneaky ?p)))
-		:effect (and (has ?p ?i) (not (has ?c ?i)) (increase (total-cost) 2)))
+        :parameters (?p ?c ?i ?l)
+        :precondition (and (player ?p) (or (character ?c) (monster ?c)) (item ?i) (location ?l) (has ?c ?i) (at ?p ?l) (at ?c ?l) (or (cooperative ?c) (sneaky ?p)))
+        :effect (and (has ?p ?i) (not (has ?c ?i)) (increase (total-cost) 2)))
 
     (:action use
-		:parameters (?p ?i)
-		:precondition (and (player ?p) (item ?i) (has ?p ?i))
-		:effect (and (used ?i) (increase (total-cost) 1)))
+        :parameters (?p ?i)
+        :precondition (and (player ?p) (item ?i) (has ?p ?i))
+        :effect (and (used ?i) (increase (total-cost) 1)))
 )
