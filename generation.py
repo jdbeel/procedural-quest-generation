@@ -20,7 +20,7 @@ def parse_goals(domain_str):
                     effects.append(i[j:i.index(")",j)+1])
     return effects
 
-def parse_world(initState_str, mapping):
+def parse_world(initState_str, mapping, agent_name=None):
     """Grabs a list of all possible objects that match a particular mapping.
     
     :param initState_str: The initial state of the game world, PPDL code in a string.
@@ -31,10 +31,13 @@ def parse_world(initState_str, mapping):
     objects=[]
     for i in IS_list:
         if i.split()[0]==m:
-            objects.append(i.split()[1][:-1])
+            if agent_name and i.split()[1][:-1] == agent_name:
+                continue
+            else:
+                objects.append(i.split()[1][:-1])
     return objects
 
-def generate(seed=None):
+def generate(seed=None, agent_name=None):
     """Generates a random amount of goals in a range and assigns
     qualifiers (characters, items, locations, ...) to each placeholder.
     Currently, more common end goals appear more frequently.
@@ -50,7 +53,7 @@ def generate(seed=None):
     with open(PPDL_DIR + "/initial_state.ppdl", "r") as f:
         initState_str = f.read()
 
-    goalSample = [goal for goal in parse_goals(domain_str) if goal.split()[0] != "(not"]
+    goalSample = [goal for goal in parse_goals(domain_str) if goal.split()[0] not in ["(not", "(character"]]
     if len(goalSample)==0:
         raise IndexError('No possible goals')
     
@@ -75,7 +78,7 @@ def generate(seed=None):
                     mapping=mappings[g2[j][1:-1]]
                 if mapping==None:
                     raise IndexError('Parameter not hardcoded properly')
-                mapSample = parse_world(initState_str,mapping)
+                mapSample = parse_world(initState_str,mapping, agent_name)
                 m = random.choice(mapSample)
                 g2[j]=m
         g=" ".join(g2)+"))" if n else " ".join(g2)+")"
