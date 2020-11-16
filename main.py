@@ -31,14 +31,17 @@ def create_quest(agent_name, method="random"):
        return goal, plan_
     if method == "preference":
         prefs = AGENT_PREFERENCES[agent_name]
-        bestplans = []
+        bestgoal, bestplan = None, None
+        bestscore = 0.
         for i in range(15):
             goal, plan_ = get_plan(agent_name)
-            _, label = classifier(plan_)
+            scores, label = classifier(plan_)
             if label in prefs["likes"]:
-                bestplans.append((goal, plan_))
+                if scores[label] > bestscore:
+                    bestgoal = goal
+                    bestplan = plan_
 
-        return random.choice(bestplans)
+        return bestgoal, bestplan
 
 
 if __name__ == "__main__":
