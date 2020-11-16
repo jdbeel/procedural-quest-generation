@@ -50,7 +50,7 @@ def generate(seed=None):
     with open(PPDL_DIR + "/initial_state.ppdl", "r") as f:
         initState_str = f.read()
 
-    goalSample = parse_goals(domain_str)
+    goalSample = [goal for goal in parse_goals(domain_str) if goal.split()[0] != "(not"]
     if len(goalSample)==0:
         raise IndexError('No possible goals')
     
