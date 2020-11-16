@@ -55,7 +55,7 @@ def generate(seed=None):
         raise IndexError('No possible goals')
     
     goals=[]
-    special=["captive","has"] #Unique goals, ask if curious
+    special=["captive","has"] # Unique goals, ask if curious
     mappings={"p":"player","c":"character","i":"item","l":"location","m":"monster","info":"information","d":"character","charB":"character","t":"location","f":"location"}
     for i in range(goalN):
         g = random.choice(goalSample)
@@ -85,14 +85,14 @@ def generate(seed=None):
         for j in goals:
             j2=j.split()
             g2=g.split()
-            if g2[0]=="(not" and j2[0]=="(not": # For comparison, not doesnt matter if equal
+            if g2[0]=="(not" and j2[0] == "(not": # For comparison, not doesnt matter if equal
                 g2=g2[1:]
                 j2=j2[1:]
-            if g2[0]=="(not" and j2[0]!="(not": # Only bad if not 'g' and 'g'
+            if g2[0]=="(not" and j2[0] != "(not": # Only bad if not 'g' and 'g'
                 j2[-1]=j2[-1]+")"
                 if g2[1:]==j2[0:]:
                     bad=True
-            elif j2[0]=="(not" and g2[0]!="(not":
+            elif j2[0]=="(not" and g2[0] != "(not":
                 g2[-1]=g2[-1]+")"
                 if j2[1:]==g2[0:]:
                     bad=True
