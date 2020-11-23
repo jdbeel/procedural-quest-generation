@@ -18,11 +18,12 @@ def get_plan(agent_name):
         plan_ = plan(goal, agent_name)
     return goal, plan_
 
-def create_quest(agent_name, method="random"):
+def create_quest(agent_name, method="random", preferences=None):
     """Creates a quest for a given agent using the specified method.
 
     :param agent_name: The name of the agent to generate a quest for.
     :param method: The method to use, either random or guided.
+    :param preferences: Supplied agent preferences, which override AGENT_PREFERENCES.
     :return: (goal, list(actions))
     """
 
@@ -30,7 +31,10 @@ def create_quest(agent_name, method="random"):
        goal, plan_ = get_plan(agent_name)
        return goal, plan_
     if method == "preference":
-        prefs = AGENT_PREFERENCES[agent_name]
+        if preferences:
+            prefs = preferences
+        else:
+            prefs = AGENT_PREFERENCES[agent_name]
         bestgoal, bestplan = None, None
         bestscore = 0.
         for i in range(15):
