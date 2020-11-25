@@ -1,7 +1,7 @@
 from flask import Flask, request, redirect
 from flask import render_template
 from main import create_quest
-from translate import translate_goal, translate
+from translate import translate_goal, translate_action
 
 app = Flask(__name__)
 
@@ -17,5 +17,5 @@ def genQuest():
     preferences = {"likes": preferences}
     goal, plan = create_quest(agent_name, method="preference", preferences=preferences)
     goal = translate_goal(goal)
-    plan = [translate(p[:-4]) for p in plan]
+    plan = [translate_action(p[:-4]) for p in plan]
     return render_template('index.html', goal=goal, plan=plan)
