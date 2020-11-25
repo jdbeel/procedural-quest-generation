@@ -11,7 +11,11 @@
       <div class="pure-u-1 pure-u-md-1-3">
         <h1>Procedural Quest Generation</h1>
     {% if goal %}
-      <h2>{{ goal }}</h2><br />
+    <ul>
+      {% for step in goal %}
+      <li>{{ step }}</li>
+      {% endfor %}
+    </ul>
       <ul>
         {% for step in plan %}
         <li>{{ step }}</li>
