@@ -4,17 +4,18 @@ def translate_goal(goal):
     goal = goal[5:-1]
     goals = [g.replace("(", "") for g in goal.split(") (")]
     goals = [g.replace(")", "") for g in goals]
-    
+
     return [translate_predicate(g) for g in goals]
+
 
 def translate_predicate(predicate):
     predicate = predicate.split()
     if predicate[0] == "has":
         if predicate[1] == "you":
-           return f"You have the {predicate[2]}."
+            return f"You have the {predicate[2]}."
         else:
             return f"{predicate[1]} has the {predicate[2]}."
-        
+
     if predicate[0] == "captive":
         if predicate[1] == "you":
             return f"You have captured {predicate[2]}."
@@ -57,6 +58,7 @@ def translate_predicate(predicate):
         return f"The {predicate[1]} is damaged."
     else:
         return " ".join(predicate)
+
 
 def translate_action(action):
     action = action.split()
@@ -106,8 +108,8 @@ def translate_action(action):
         return f"Use the {action[2]}."
     else:
         return " ".join(action)
-    
 
 
 if __name__ == "__main__":
-    translate_goal("(and (has Aladdin lamp) (captive you Aladdin) (used lamp))")
+    translate_goal(
+        "(and (has Aladdin lamp) (captive you Aladdin) (used lamp))")

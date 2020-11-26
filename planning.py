@@ -7,6 +7,7 @@ from typing import Iterable
 PPDL_DIR = "../ppdl"
 PLANNER_DIR = "../fast-downward"
 
+
 def plan(goal: str, agent_name: str) -> Iterable[str]:
     """Plans given a goal and an agent name, using the
     domain and initial state files present in `./ppdl`.
@@ -43,9 +44,15 @@ def plan(goal: str, agent_name: str) -> Iterable[str]:
     # Run the planner
     with open(agent_name + ".soln", "w") as solution:
         calc = subprocess.call(
-            [PLANNER_DIR + "/fast-downward.py", PPDL_DIR + "/domain.ppdl", "initial_state.ppdl", "--search", "astar(ipdb())"], 
-            stdout=solution
-        )
+            [
+                PLANNER_DIR +
+                "/fast-downward.py",
+                PPDL_DIR +
+                "/domain.ppdl",
+                "initial_state.ppdl",
+                "--search",
+                "astar(ipdb())"],
+            stdout=solution)
 
     # Using a regex, pull the solution out of the output file
     soln_regex = r"([a-z ]+) \(\d\)$"
@@ -60,5 +67,9 @@ def plan(goal: str, agent_name: str) -> Iterable[str]:
     shutil.rmtree("temp")
     return soln
 
+
 if __name__ == "__main__":
-    print(plan("(and (has Aladdin lamp) (captive you Aladdin) (used lamp))", "Aladdin"))
+    print(
+        plan(
+            "(and (has Aladdin lamp) (captive you Aladdin) (used lamp))",
+            "Aladdin"))

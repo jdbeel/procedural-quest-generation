@@ -7,8 +7,11 @@ from planning import plan
 from classification import classifier
 
 AGENT_PREFERENCES = {
-    "Aladdin": {"likes": ["Conquest", "Reputation"], "dislikes": ["Knowledge", "Comfort"]}
-}
+    "Aladdin": {
+        "likes": [
+            "Conquest", "Reputation"], "dislikes": [
+                "Knowledge", "Comfort"]}}
+
 
 def get_plan(agent_name):
     plan_ = []
@@ -17,6 +20,7 @@ def get_plan(agent_name):
         goal = generate(agent_name=agent_name)
         plan_ = plan(goal, agent_name)
     return goal, plan_
+
 
 def create_quest(agent_name, method="random", preferences=None):
     """Creates a quest for a given agent using the specified method.
@@ -28,8 +32,8 @@ def create_quest(agent_name, method="random", preferences=None):
     """
 
     if method == "random":
-       goal, plan_ = get_plan(agent_name)
-       return goal, plan_
+        goal, plan_ = get_plan(agent_name)
+        return goal, plan_
     if method == "preference":
         if preferences:
             prefs = preferences

@@ -5,9 +5,11 @@ from translate import translate_goal, translate_action
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/genQuest', methods=['POST'])
 def genQuest():
@@ -15,7 +17,8 @@ def genQuest():
     agent_name = f['agentName']
     preferences = [key for key in f.keys() if key != 'agentName']
     preferences = {"likes": preferences}
-    goal, plan = create_quest(agent_name, method="preference", preferences=preferences)
+    goal, plan = create_quest(
+        agent_name, method="preference", preferences=preferences)
     goal = translate_goal(goal)
     plan = [translate_action(p[:-4]) for p in plan]
     return render_template('index.html', goal=goal, plan=plan)
