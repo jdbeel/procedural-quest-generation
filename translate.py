@@ -1,6 +1,11 @@
 
 
 def translate_goal(goal):
+    """Translates a goal (a series of predicates joined by an AND).
+
+    :param goal: The goal to translate.
+    :return: A list of translated predicates.
+    """
     goal = goal[5:-1]
     goals = [g.replace("(", "") for g in goal.split(") (")]
     goals = [g.replace(")", "") for g in goals]
@@ -9,6 +14,12 @@ def translate_goal(goal):
 
 
 def translate_predicate(predicate):
+    """Translate a predicate into natural(ish) English.
+
+    :param predicate: The predicate to translate.
+    :return: The translated predicate.
+    """
+    
     predicate = predicate.split()
     if predicate[0] == "has":
         if predicate[1] == "you":
@@ -61,6 +72,12 @@ def translate_predicate(predicate):
 
 
 def translate_action(action):
+    """Translates an action into natural(ish) English.
+
+    :param action: The action to translate.
+    :return: The translated action
+    """
+
     action = action.split()
     if action[0] == "capture":
         return f"Capture {action[2]} from the {action[3]}."
