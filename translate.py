@@ -118,9 +118,9 @@ def translate_action(action):
         return f"Stealth."
     elif action[0] == "take":
         if action[2] == "dragon":
-            return f"Take the {action[2]} from the {action[2]} at the {action[4]}."
+            return f"Take the {action[3]} from the {action[2]} at the {action[4]}."
         else:
-            return f"Take the {action[2]} from {action[2]} at the {action[4]}."
+            return f"Take the {action[3]} from {action[2]} at the {action[4]}."
     elif action[0] == "use":
         return f"Use the {action[2]}."
     else:

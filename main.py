@@ -35,19 +35,21 @@ def create_quest(agent_name, method="random", preferences=None):
         goal, plan_ = get_plan(agent_name)
         return goal, plan_
     if method == "preference":
-        if preferences:
-            prefs = preferences
-        else:
-            prefs = AGENT_PREFERENCES[agent_name]
         bestgoal, bestplan = None, None
-        bestscore = 0.
-        for i in range(15):
-            goal, plan_ = get_plan(agent_name)
-            scores, label = classifier(plan_)
-            if label in prefs["likes"]:
-                if scores[label] > bestscore:
-                    bestgoal = goal
-                    bestplan = plan_
+        while bestplan is None:
+            if preferences:
+                prefs = preferences
+            else:
+                prefs = AGENT_PREFERENCES[agent_name]
+            bestgoal, bestplan = None, None
+            bestscore = 0.
+            for i in range(15):
+                goal, plan_ = get_plan(agent_name)
+                scores, label = classifier(plan_)
+                if label in prefs["likes"]:
+                    if scores[label] > bestscore:
+                        bestgoal = goal
+                        bestplan = plan_
 
         return bestgoal, bestplan
 
