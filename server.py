@@ -8,11 +8,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    """Display the index page.
+    """
+    
     return render_template('index.html')
 
 
 @app.route('/genQuest', methods=['POST'])
 def genQuest():
+    """Calls the functions from the other modules to generate,
+    translate, and display a quest.
+    """
+
     f = request.form
     agent_name = f['agentName']
     preferences = [key for key in f.keys() if key != 'agentName']
